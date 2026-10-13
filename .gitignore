@@ -1,0 +1,33 @@
+# Dependencies and generated output at any depth
+node_modules/
+dist/
+dist-ssr/
+build/
+coverage/
+
+# Tool caches
+.cache/
+.vite/
+.vite-temp/
+.eslintcache
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Local environment credentials; examples must contain placeholders only
+.env
+.env.*
+!.env.example
+
+# Local editor and operating-system files
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
