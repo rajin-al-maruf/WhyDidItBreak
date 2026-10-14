@@ -14,7 +14,14 @@ const projectSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    ingestionKey: {
+        type: String,
+        unique: true,
+        sparse: true,
+        select: false,
+    },
   },
+  
   { timestamps: true }
 );
 
