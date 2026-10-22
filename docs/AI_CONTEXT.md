@@ -147,6 +147,11 @@ Adjust to course milestones and actual progress.
   Mongoose connection and API startup confirmed by developer.
 - Backend automated tests: not implemented yet;
   test script remains a placeholder.
+- FR-03: ingestion-key generation, owner-only retrieval and rotation
+  implemented; manual checks reported by developer.
+- FR-04: browser SDK and demo implemented; manual capture and
+  failure-path checks reported by developer.
+- Successful ingestion and storage remain pending FR-05.
 
 ### Git foundation verification
 From the project root, run `git rev-parse --show-toplevel` and `git symbolic-ref --short HEAD`; expect this repository path and `main`.

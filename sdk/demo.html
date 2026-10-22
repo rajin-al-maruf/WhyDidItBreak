@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SDK Learning Demo</title>
+</head>
+<body>
+  <h1>SDK Learning Demo</h1>
+
+  <button id="error-button">Cause an error</button>
+  <button id="promise-button">Cause async error</button>
+  <button id="stop-button">Stop monitoring</button>
+  <button id="manual-button">Report a caught error</button>
+
+  <p id="delivery-result">No delivery attempted.</p>
+  <pre id="result">No error captured yet.</pre>
+
+  <script type="module">
+    import { init, startErrorListener, captureException, sendReport, } from './src/index.js';
+
+    init({
+      ingestionKey: 'demo-key',
+      endpoint: 'http://localhost:5000/api/events',
+      environment: 'testing',
+      captureStack: true,
+      captureUrl: true,
+      captureBrowser: true,
+    });
+
+    async function displayReport(report) {
+      try {
+        document.getElementById('result').textContent = JSON.stringify(report, null, 2)
+
+        const success = await sendReport(report);
+
+        document.getElementById('delivery-result').textContent =success? 'Report delivered.' : 'Report captured, but delivery failed.'
+      } catch {
+        // Reporting must not cause another error.
+      }
+    }
+
+    const stopListening = startErrorListener(displayReport);
+
+    document.getElementById('error-button').addEventListener('click', function () {
+        throw new Error('The demo button failed!');
+    });
+    document.getElementById('promise-button').addEventListener('click', function () {
+      Promise.reject(new Error('The demo async operation failed!'));
+    });
+
+    document.getElementById('manual-button').addEventListener('click', function () {
+    try {
+      throw new Error('Checkout failed, but the app caught it.');
+    } catch (error) {
+      captureException(error, displayReport);
+    }
+  });
+
+    document.getElementById('stop-button').addEventListener('click', function () { 
+      stopListening()
+      document.getElementById('result').textContent = 'Monitoring stopped.'
+    });
+  </script>
+</body>
+</html>
