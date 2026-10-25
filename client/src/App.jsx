@@ -1,22 +1,45 @@
-
+import { useContext } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthContext } from './api/AuthContext.jsx';
+import AuthPage from './pages/AuthPage.jsx';
+// import ProjectsPage from './pages/ProjectsPage.jsx';
 
 function App() {
+  const { user, loading, sessionError } = useContext(AuthContext);
+
+  if (loading) {
+    return <p>Checking your session...</p>;
+  }
+
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-white">
-          WhyDidItBreak
-        </h1>
+    <Router>
+      {sessionError && !user && (
+        <p role="alert">{sessionError}</p>
+      )}
 
-        <p className="mt-4 text-slate-400">
-          AI-Powered Error Monitoring & Debugging
-        </p>
+      <Routes>
+        <Route
+          path="/auth"
+          element={
+            user ? <Navigate to="/projects" replace /> : <AuthPage />
+          }
+        />
 
-        <span className="inline-block mt-6 rounded-full bg-green-500/10 px-4 py-2 text-sm text-green-400">
-          Frontend Running Successfully
-        </span>
-      </div>
-    </div>
+        <Route
+          path="/projects"
+          element={
+            user ? <ProjectsPage /> : <Navigate to="/auth" replace />
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <Navigate to={user ? '/projects' : '/auth'} replace />
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

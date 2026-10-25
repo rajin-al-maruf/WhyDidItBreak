@@ -1,8 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express()
 
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '10kb' }))
+app.use(cors({origin: 'http://localhost:5173',}))
 
 const userRoutes = require('./routes/user.route.js');
 const projectRoutes = require('./routes/project.routes');
