@@ -2,7 +2,8 @@ import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthContext } from './api/AuthContext.jsx';
 import AuthPage from './pages/AuthPage.jsx';
-// import ProjectsPage from './pages/ProjectsPage.jsx';
+import ProjectsPage from './pages/ProjectsPage.jsx';
+import ProjectSettingsPage from './pages/ProjectSettingsPage.jsx';
 
 function App() {
   const { user, loading, sessionError } = useContext(AuthContext);
@@ -13,9 +14,7 @@ function App() {
 
   return (
     <Router>
-      {sessionError && !user && (
-        <p role="alert">{sessionError}</p>
-      )}
+      {sessionError && !user && (<p role="alert">{sessionError}</p>)}
 
       <Routes>
         <Route
@@ -36,6 +35,15 @@ function App() {
           path="*"
           element={
             <Navigate to={user ? '/projects' : '/auth'} replace />
+          }
+        />
+
+        <Route
+          path="/projects/:id"
+          element={
+            user
+              ? <ProjectSettingsPage />
+              : <Navigate to="/auth" replace />
           }
         />
       </Routes>
