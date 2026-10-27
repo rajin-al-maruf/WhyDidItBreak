@@ -25,4 +25,20 @@ const deleteProject = async (id) => {
   return response.data;
 };
 
-export { getProjects, createProject, getProject, updateProject, deleteProject };
+const getIngestionKey = async (id) => {
+  const response = await axiosInstance.get(
+    `/projects/${id}/ingestion-key`
+  );
+
+  return response.data;
+};
+
+const rotateIngestionKey = async (id) => {
+  const response = await axiosInstance.post(
+    `/projects/${id}/ingestion-key/rotate`
+  );
+
+  return response.data;
+};
+
+export { getProjects, createProject, getProject, updateProject, deleteProject, getIngestionKey, rotateIngestionKey };

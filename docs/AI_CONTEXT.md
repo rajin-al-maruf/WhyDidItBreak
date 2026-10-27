@@ -153,6 +153,17 @@ Adjust to course milestones and actual progress.
   failure-path checks reported by developer.
 - Successful ingestion and storage remain pending FR-05.
 
+- Basic frontend implemented for registration, login, session
+  restoration and logout.
+- Project screens support listing, creation, viewing, renaming
+  with PUT and deletion.
+- Project settings support ingestion-key retrieval, copying,
+  hiding and rotation, plus SDK setup instructions.
+- Routing uses inline authentication checks in App.jsx.
+- AuthContext and AuthProvider intentionally share one file.
+- Profile editing and password changes remain unimplemented.
+- FR-05 ingestion and storage remain pending.
+
 ### Git foundation verification
 From the project root, run `git rev-parse --show-toplevel` and `git symbolic-ref --short HEAD`; expect this repository path and `main`.
 Use `git check-ignore --no-index -v -- server/.env client/node_modules/example/index.js client/dist/index.html` to inspect ignore matches without creating sample files.

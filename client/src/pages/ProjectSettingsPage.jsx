@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getProject , updateProject, deleteProject } from '../api/projectApi';
+import { getProject , updateProject, deleteProject, getIngestionKey, rotateIngestionKey} from '../api/projectApi';
+import SdkSetup from '../components/SdkSetup.jsx';
 
 const ProjectSettingsPage = () => {
   const { id } = useParams();
@@ -16,6 +17,11 @@ const ProjectSettingsPage = () => {
   const [saveMessage, setSaveMessage] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState('');
+  const [ingestionKey, setIngestionKey] = useState('');
+  const [isLoadingKey, setIsLoadingKey] = useState(false);
+  const [keyError, setKeyError] = useState('');
+  const [isRotating, setIsRotating] = useState(false);
+  const [keyMessage, setKeyMessage] = useState('');
 
   useEffect(() => {
     let active = true;
@@ -23,6 +29,8 @@ const ProjectSettingsPage = () => {
     const loadProject = async () => {
       setLoading(true);
       setError('');
+      setIngestionKey('');
+      setKeyError('');
 
       try {
         const data = await getProject(id);
@@ -103,6 +111,72 @@ const ProjectSettingsPage = () => {
     }
   };
 
+  const handleShowKey = async () => {
+    if (isLoadingKey || isDeleting) return;
+
+    setKeyError('');
+
+    if (ingestionKey) {
+      setIngestionKey('');
+      return;
+    }
+
+    setIsLoadingKey(true);
+
+    try {
+      const data = await getIngestionKey(id);
+      setIngestionKey(data.ingestionKey);
+    } catch (error) {
+      setKeyError(
+        error.response?.data?.message || 'Unable to retrieve key.'
+      );
+    } finally {
+      setIsLoadingKey(false);
+    }
+  };
+
+  const handleRotateKey = async () => {
+    if (isRotating || isLoadingKey || isDeleting) return;
+
+    const confirmed = window.confirm(
+      'Replace this project’s ingestion key? Applications using it will need the new key.'
+    );
+
+    if (!confirmed) return;
+
+    setKeyError('');
+    setKeyMessage('');
+    setIngestionKey('');
+    setIsRotating(true);
+
+    try {
+      const data = await rotateIngestionKey(id);
+
+      setIngestionKey(data.ingestionKey);
+      setKeyMessage('Key rotated. Update your SDK configuration.');
+    } catch (error) {
+      setKeyError(
+        error.response?.data?.message || 'Unable to rotate key.'
+      );
+    } finally {
+      setIsRotating(false);
+    }
+  }
+
+  const handleCopyKey = async () => {
+    if (!ingestionKey || isRotating || isLoadingKey || isDeleting) return;
+
+    setKeyError('');
+    setKeyMessage('');
+
+    try {
+      await navigator.clipboard.writeText(ingestionKey);
+      setKeyMessage('Key copied.');
+    } catch {
+      setKeyError('Unable to copy. Please select and copy the key manually.');
+    }
+  }
+
   return (
     <main className="mx-auto max-w-3xl space-y-6 p-6">
       <Link to="/projects">← Back to projects</Link>
@@ -149,6 +223,54 @@ const ProjectSettingsPage = () => {
 
             {deleteError && <p role="alert">{deleteError}</p>}
           </div>
+
+          <section className="mt-8 space-y-3">
+            <h2 className="font-semibold">SDK ingestion key</h2>
+
+            <p>Use this key when configuring the SDK in your application.</p>
+
+            <button
+              type="button"
+              onClick={handleShowKey}
+              disabled={isLoadingKey || isDeleting}
+            >
+              {isLoadingKey
+                ? 'Loading...'
+                : ingestionKey
+                  ? 'Hide key'
+                  : 'Show key'}
+            </button>
+
+            <SdkSetup ingestionKey={ingestionKey} />
+
+            {ingestionKey && (
+              <div className="space-y-2">
+                <code className="block break-all rounded border p-3">
+                  {ingestionKey}
+                </code>
+                
+                <button
+                  type="button"
+                  onClick={handleCopyKey}
+                  disabled={isRotating || isLoadingKey || isDeleting}
+                >
+                  Copy key
+                </button>
+              </div>
+            )}
+
+            {keyError && <p role="alert">{keyError}</p>}
+
+            <button
+              type="button"
+              onClick={handleRotateKey}
+              disabled={isRotating || isLoadingKey || isDeleting}
+            >
+              {isRotating ? 'Rotating...' : 'Rotate key'}
+            </button>
+
+            {keyMessage && <p role="status">{keyMessage}</p>}
+          </section>
         </section>
       )}
     </main>

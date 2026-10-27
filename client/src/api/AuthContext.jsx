@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 
+// Keep the shared context and provider together in this module.
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
 
 import { loginUser, registerUser, getCurrentUser} from './authApi';
