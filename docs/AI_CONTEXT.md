@@ -136,33 +136,27 @@ Build simple navigation/dashboard shells when useful, but do not prioritize poli
 - Weeks 10–12: integration, security, tests, deployment, documentation and demo.
 Adjust to course milestones and actual progress.
 
-## 11. Current status — inspected 2026-10-08
+## 11. Current status — updated 2026-11-04
 - Backend: CommonJS Express application implemented with
   GET /api/health. Startup connects to MongoDB before listening.
 - Backend scripts: npm start and npm run dev configured.
-  Nodemon automatic restart verified by developer.
-- Environment: dotenv loads server/.env with PORT and MONGODB_URI.
-  No .env.example created yet.
-- MongoDB Atlas: project and cluster created.
-  Mongoose connection and API startup confirmed by developer.
-- Backend automated tests: not implemented yet;
-  test script remains a placeholder.
-- FR-03: ingestion-key generation, owner-only retrieval and rotation
-  implemented; manual checks reported by developer.
-- FR-04: browser SDK and demo implemented; manual capture and
-  failure-path checks reported by developer.
-- Successful ingestion and storage remain pending FR-05.
-
-- Basic frontend implemented for registration, login, session
-  restoration and logout.
-- Project screens support listing, creation, viewing, renaming
-  with PUT and deletion.
-- Project settings support ingestion-key retrieval, copying,
-  hiding and rotation, plus SDK setup instructions.
-- Routing uses inline authentication checks in App.jsx.
-- AuthContext and AuthProvider intentionally share one file.
-- Profile editing and password changes remain unimplemented.
-- FR-05 ingestion and storage remain pending.
+- Environment: .env.example created for both server/ and client/.
+- MongoDB Atlas: Connection verified and functional.
+- FR-01: User registration, login, session validation (GET /api/users/me),
+  and logout fully implemented and integrated.
+- FR-02: Project listing, creation, viewing, updating, and deletion fully
+  implemented and integrated.
+- FR-03: Ingestion key generation, reveal/hide, copy to clipboard, and rotation
+  implemented with confirmation modal dialogs.
+- FR-04: Lightweight browser JavaScript SDK implemented with error listener,
+  exception capture, redaction, and setup guides.
+- Frontend: Complete modern SaaS design system implemented (Tailwind CSS v4,
+  dark-first developer aesthetic, custom SVG icons, accessible Modal components,
+  sticky Navbar with account popover, AppLayout, and polished responsive states).
+- Verified with zero ESLint errors and production Vite build success.
+- Module 1 frontend is complete and ready.
+- Module 2 (FR-05 error ingestion, FR-06 grouping, FR-07 details, FR-08 GitHub)
+  remains pending.
 
 ### Git foundation verification
 From the project root, run `git rev-parse --show-toplevel` and `git symbolic-ref --short HEAD`; expect this repository path and `main`.
