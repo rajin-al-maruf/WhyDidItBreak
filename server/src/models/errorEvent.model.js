@@ -48,3 +48,4 @@ const errorEventSchema = new mongoose.Schema(
   { timestamps: true },
 );
 module.exports = mongoose.model("ErrorEvent", errorEventSchema);
+

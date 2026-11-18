@@ -85,3 +85,4 @@ const ingestErrorEvent = async (req, res) => {
 };
 
 module.exports = { ingestErrorEvent };
+
