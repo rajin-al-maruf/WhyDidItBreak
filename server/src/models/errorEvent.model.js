@@ -1,11 +1,16 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const errorEventSchema = new mongoose.Schema(
   {
     project: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Project',
+      ref: "Project",
       required: true,
+      index: true,
+    },
+    issue: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Issue",
       index: true,
     },
     message: {
@@ -25,7 +30,7 @@ const errorEventSchema = new mongoose.Schema(
     },
     environment: {
       type: String,
-      default: 'development',
+      default: "development",
       trim: true,
       maxlength: 50,
     },
@@ -40,6 +45,6 @@ const errorEventSchema = new mongoose.Schema(
       maxlength: 500,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-module.exports = mongoose.model('ErrorEvent', errorEventSchema);
+module.exports = mongoose.model("ErrorEvent", errorEventSchema);
