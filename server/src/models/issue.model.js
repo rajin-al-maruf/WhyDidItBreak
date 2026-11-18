@@ -43,6 +43,7 @@ const issueSchema = new mongoose.Schema(
 );
 
 // Compound index: guarantees that for a given project, each fingerprint is unique!
+
 issueSchema.index({ project: 1, fingerprint: 1 }, { unique: true });
 
 module.exports = mongoose.model('Issue', issueSchema);
