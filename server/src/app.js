@@ -8,7 +8,7 @@ app.use(cors())
 
 const userRoutes = require('./routes/user.route.js');
 const projectRoutes = require('./routes/project.routes');
-const eventRoutes = require('./routes/errorEvent.routes');
+const eventRoutes = require('./routes/errorEvent.route');
 
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);

@@ -26,19 +26,23 @@ const deleteProject = async (id) => {
 };
 
 const getIngestionKey = async (id) => {
-  const response = await axiosInstance.get(
-    `/projects/${id}/ingestion-key`
-  );
-
+  const response = await axiosInstance.get(`/projects/${id}/ingestion-key`);
   return response.data;
 };
 
 const rotateIngestionKey = async (id) => {
-  const response = await axiosInstance.post(
-    `/projects/${id}/ingestion-key/rotate`
-  );
-
+  const response = await axiosInstance.post(`/projects/${id}/ingestion-key/rotate`);
   return response.data;
 };
 
-export { getProjects, createProject, getProject, updateProject, deleteProject, getIngestionKey, rotateIngestionKey };
+const getProjectIssues = async (projectId) => {
+  const response = await axiosInstance.get(`/projects/${projectId}/issues`);
+  return response.data;
+};
+
+const getIssueDetails = async (projectId, issueId) => {
+  const response = await axiosInstance.get(`/projects/${projectId}/issues/${issueId}`);
+  return response.data;
+};
+
+export { getProjects, createProject, getProject, updateProject, deleteProject, getIngestionKey, rotateIngestionKey, getProjectIssues, getIssueDetails };

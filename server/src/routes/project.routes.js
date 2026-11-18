@@ -1,5 +1,6 @@
 const express = require('express');
 const { createProject, getProjects, getProject, updateProject, deleteProject, getIngestionKey, rotateIngestionKey} = require('../controllers/project.controller');
+const { getProjectIssues, getIssueDetails } = require('../controllers/issue.controller');
 const authMiddleware = require('../middleware/auth.middleware');
 
 const router = express.Router();
@@ -12,5 +13,9 @@ router.delete('/:id', authMiddleware, deleteProject);
 //fr3
 router.get('/:id/ingestion-key', authMiddleware, getIngestionKey);
 router.post('/:id/ingestion-key/rotate', authMiddleware, rotateIngestionKey);
+
+//fr6 fr7
+router.get('/:projectId/issues', authMiddleware, getProjectIssues);
+router.get('/:projectId/issues/:issueId', authMiddleware, getIssueDetails);
 
 module.exports = router;

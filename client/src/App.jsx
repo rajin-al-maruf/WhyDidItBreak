@@ -6,6 +6,8 @@ import ProjectsPage from './pages/ProjectsPage.jsx';
 import ProjectSettingsPage from './pages/ProjectSettingsPage.jsx';
 import AppLayout from './components/layout/AppLayout.jsx';
 import { LogoIcon, Loader2Icon, AlertCircleIcon } from './components/common/Icons';
+import ProjectIssuesPage from './pages/ProjectIssuesPage.jsx';
+import IssueDetailPage from './pages/IssueDetailPage.jsx';
 
 function App() {
   const { user, loading, sessionError } = useContext(AuthContext);
@@ -59,7 +61,33 @@ function App() {
           element={
             user ? (
               <AppLayout>
+                <ProjectIssuesPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/auth" replace />
+            )
+          }
+        />
+
+        <Route
+          path="/projects/:id/settings"
+          element={
+            user ? (
+              <AppLayout>
                 <ProjectSettingsPage />
+              </AppLayout>
+            ) : (
+              <Navigate to="/auth" replace />
+            )
+          }
+        />
+
+        <Route
+          path="/projects/:id/issues/:issueId"
+          element={
+            user ? (
+              <AppLayout>
+                <IssueDetailPage />
               </AppLayout>
             ) : (
               <Navigate to="/auth" replace />

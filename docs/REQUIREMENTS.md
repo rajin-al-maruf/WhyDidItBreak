@@ -28,7 +28,7 @@ The system shall receive error events from integrated applications through a val
 **FR-06 — Error Grouping and Fingerprinting**  
 The system shall identify and group recurring instances of the same underlying error so that multiple occurrences are represented as a single issue with an associated occurrence count.
 
-**FR-07 — Error Details and Context**  
+**FR-07 — Error Details and Context** 
 The system shall provide a detailed view of each identified issue, including its error message, stack trace, occurrence history, execution environment, browser information, affected URL, and available relevant context.
 
 **FR-08 — GitHub Repository Integration**  
